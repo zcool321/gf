@@ -40,6 +40,12 @@ func GetIntranetIp() (ip string, err error) {
 	if len(ips) == 0 {
 		return "", errors.New("no intranet ip found")
 	}
+	// Try to avoid gateway ip
+	for _,ip := range ips {
+		if !gstr.HasSuffix(ip,".1") {
+			return ip, nil
+		}
+	}
 	return ips[0], nil
 }
 
